@@ -4,6 +4,27 @@ const chatbox = document.querySelector(".chatbox");
 const chatbotToggler = document.querySelector(".chatbot-toggler");
 const chatbotCloseBtn = document.querySelector(".close-btn");
 
+let isFirstOpen = true; 
+
+chatbotToggler.addEventListener("click", () => {
+  document.body.classList.toggle("show-chatbot");
+
+  if (isFirstOpen) {
+    const salutationMessage = createChatLi("Halo! Selamat datang di layanan telekonseling anemia. Saya siap membantu Anda. Silakan lengkapi data Anda terlebih dahulu\nNama :\nUsia :\nJenis Kelamin  :", "incoming");
+    
+    salutationMessage.classList.add("animate");
+    chatbox.appendChild(salutationMessage);
+    chatbox.scrollTo(0, chatbox.scrollHeight);
+
+    setTimeout(() => {
+      salutationMessage.classList.remove("animate");
+    }, 1000); // Waktu harus sama dengan durasi animasi
+
+    isFirstOpen = false; // Setelah salam pertama, ubah status menjadi false
+  }
+});
+
+
 let userMessage;
 let currentStep = 1;
 let userData = {
@@ -13,13 +34,10 @@ let userData = {
   hbLevel: ""
 };
 
-chatbotToggler.addEventListener("click", () => {
-  document.body.classList.toggle("show-chatbot");
-});
-
 chatbotCloseBtn.addEventListener("click", () => {
   document.body.classList.remove("show-chatbot");
 });
+
 
 // Fungsi untuk membuat elemen chat
 const createChatLi = (message, className) => {
@@ -41,7 +59,7 @@ const generateResponse = () => {
   const jenisKelamin = userData.jenisKelamin.toLowerCase();
 
   if (currentStep === 1) {
-    responseMessage = "Selamat datang di layanan telekonseling anemia, saya akan membantu Anda. Sebelum kita memulai, silahkan lengkapi data terlebih dahulu:\nNama:\nUsia:\nJenis Kelamin:";
+    responseMessage = "Selamat datang di layanan telekonseling anemia, saya akan membantu Anda. Sebelum kita memulai, silahkan lengkapi data terlebih dahulu\nNama  :\nUsia :\nJenis Kelamin  :";
   } else if (currentStep === 2) {
     responseMessage = "Terima kasih telah melengkapi data. Bagaimana saya dapat membantu Anda terkait kondisi anemia? Boleh disebutkan kadar HB Bapak/Ibu/Kakak.";
   } else if (currentStep === 3) {
@@ -163,7 +181,8 @@ const handleChat = () => {
 sendChatBtn.addEventListener("click", handleChat);
 chatInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && !e.shiftKey) {
-    e.preventDefault();
-    handleChat();
+    e.preventDefault(); 
+    chatInput.value += "\n"; 
   }
 });
+

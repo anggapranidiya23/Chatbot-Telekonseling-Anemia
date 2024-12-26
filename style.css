@@ -102,6 +102,21 @@ body {
 }
 
 /* Pesan Chat */
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .chat.incoming.animate {
+    animation: fadeIn 1.0s ease-out;
+  }
+  
 .chatbox .chat {
     display: flex;
 }
@@ -167,6 +182,8 @@ body {
 }
 
 .chat-input span {
+    margin-right: 10px; /* Berikan jarak dari sisi kanan */
+    padding: 0px 10px; /* Tambahkan ruang dalam tombol */
     align-self: flex-end;
     height: 55px;
     line-height: 55px;
